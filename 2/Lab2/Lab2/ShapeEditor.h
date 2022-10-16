@@ -13,11 +13,12 @@ protected:
 	int index = 0;
 	void GetPossibleIndex();
 	bool isPainting = false;
+	virtual void GetShape() = 0; 
 	//... корисні члени, які враховують специфіку Windows-програм
 public:
 	ShapeEditor(void);
-	virtual void OnLBdown(HWND) = 0;
-	void OnLBup(HWND); // Я не робив його віртуальним бо він однаковий для всіх 4 нащадків
+    void OnLBdown(HWND); // Я не робив його віртуальним бо він однаковий для всіх 4 нащадків
+	void OnLBup(HWND);  // теж не робив бо зміг зробити однаковим за домпомогою віртуального метода GetShape()
 	virtual void OnMouseMove(HWND) = 0;
 	void OnPaint(HWND);
 };

@@ -1,5 +1,8 @@
-﻿  point_shape.cpp
+﻿  ellipse_editor.cpp
+  line_editor.cpp
+  point_editor.cpp
   rect_editor.cpp
+  ShapeEditor.cpp
   shape_editor.cpp
   Generating Code...
   Lab2.vcxproj -> C:\Users\user\source\repos\Lab2\Debug\Lab2.exe

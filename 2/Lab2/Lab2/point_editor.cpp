@@ -6,8 +6,6 @@
 void PointEditor::OnMouseMove(HWND hWnd) {
 }
 
-void PointEditor::OnLBdown(HWND hWnd) {
-	GetPossibleIndex();
+void PointEditor::GetShape() {
 	pcshape[index] = new PointShape;
 };
-

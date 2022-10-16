@@ -26,12 +26,6 @@ void LineEditor::OnMouseMove(HWND hWnd) {
 	ReleaseDC(hWnd, hdc); //закриваємо контекст вікна
 }
 
-void LineEditor::OnLBdown(HWND hWnd) {
-	isPainting = true;
-	GetCursorPos(&pt);
-	ScreenToClient(hWnd, &pt);
-	GetPossibleIndex();
+void LineEditor::GetShape() {
 	pcshape[index] = new LineShape;
-	pcshape[index]->SetEnd(pt.x, pt.y);
-	pcshape[index]->SetStart(pt.x, pt.y);
 };

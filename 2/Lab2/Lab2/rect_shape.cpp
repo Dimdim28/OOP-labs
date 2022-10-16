@@ -14,5 +14,4 @@ void RectShape::Show(HDC hdc) {
 
 	SelectObject(hdc, hBrushOld); //відновлюється пензль-попередник
 	DeleteObject(hBrush);
-
 }

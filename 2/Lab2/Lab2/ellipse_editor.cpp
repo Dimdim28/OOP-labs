@@ -25,12 +25,6 @@ void EllipseEditor::OnMouseMove(HWND hWnd) {
 	ReleaseDC(hWnd, hdc); //закриваємо контекст вікна
 }
 
-void EllipseEditor::OnLBdown(HWND hWnd) {
-	isPainting = true;
-	GetCursorPos(&pt);
-	ScreenToClient(hWnd, &pt);
-	GetPossibleIndex();
+void EllipseEditor::GetShape() {
 	pcshape[index] = new EllipseShape;
-	pcshape[index]->SetStart(pt.x, pt.y);
-	pcshape[index]->SetEnd(pt.x, pt.y);
 };
