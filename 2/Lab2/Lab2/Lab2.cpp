@@ -140,9 +140,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT: //потрібно оновлення зображення клієнтської частині вікна
         Dima.OnPaint(hWnd);
         break;
-    case WM_INITMENUPOPUP: //позначка пунктів меню - для окремих варіантів завдань
-        Dima.OnInitMenuPopup(hWnd, wParam);
-        break;
 
     case WM_COMMAND:
     {
@@ -151,16 +148,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         switch (wmId)
         {
         case ID_32771:
-            Dima.StartPointEditor(); //початок вводу точкових об’єктів
+            Dima.StartPointEditor(hWnd); //початок вводу точкових об’єктів
             break;
         case ID_32772:
-            Dima.StartLineEditor(); //початок вводу об’єктів-ліній
+            Dima.StartLineEditor(hWnd); //початок вводу об’єктів-ліній
             break;
         case ID_32773:
-            Dima.StartRectEditor(); //початок вводу прямокутників
+            Dima.StartRectEditor(hWnd); //початок вводу прямокутників
             break;
         case ID_32774:
-            Dima.StartEllipseEditor(); //початок вводу еліпсів
+            Dima.StartEllipseEditor(hWnd); //початок вводу еліпсів
             break;
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);

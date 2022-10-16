@@ -2,35 +2,38 @@
 #include "shape_editor.h"
 #include "shape.h"
 #include "editor.h"
+#include "ShapeEditor.h"
+#include "point_editor.h"
+#include "line_editor.h"
+#include "rect_editor.h"
+#include "ellipse_editor.h"
+
+ShapeEditor* pse = NULL;
 
 ShapeObjectsEditor::ShapeObjectsEditor(void) {}
 ShapeObjectsEditor::~ShapeObjectsEditor() {}
-void ShapeObjectsEditor::StartPointEditor() {
+void ShapeObjectsEditor::StartPointEditor(HWND hWnd) {
 	if (pse) delete pse;
 	pse = new PointEditor;
-	//if (type) delete type;
-    //type = new PointShape;
+	SetWindowText(hWnd, L"Режим вводу крапка");
 }
 
-void ShapeObjectsEditor::StartLineEditor() {
+void ShapeObjectsEditor::StartLineEditor(HWND hWnd) {
 	if (pse) delete pse;
 	pse = new LineEditor;
-	//if (type) delete type;
-	//type = new LineShape;
+	SetWindowText(hWnd, L"Режим вводу лінія");
 }
 
-void ShapeObjectsEditor::StartRectEditor() {
+void ShapeObjectsEditor::StartRectEditor(HWND hWnd) {
 	if (pse) delete pse;
 	pse = new RectEditor;
-	//if (type) delete type;
-	//type = new RectShape;
+	SetWindowText(hWnd, L"Режим вводу прямокутник");
 }
 
-void ShapeObjectsEditor::StartEllipseEditor() {
+void ShapeObjectsEditor::StartEllipseEditor(HWND hWnd) {
 	if (pse) delete pse;
 	pse = new EllipseEditor;
-	//if (type) delete type;
-	//type = new EllipseShape;
+	SetWindowText(hWnd, L"Режим вводу єлліпс");
 }
 
 void ShapeObjectsEditor::OnLBdown(HWND hWnd) {
@@ -49,6 +52,3 @@ void ShapeObjectsEditor::OnPaint(HWND hWnd) {
 	if (pse) pse->OnPaint(hWnd);
 }
 
-void ShapeObjectsEditor::OnInitMenuPopup(HWND hWnd, WPARAM wParam) {
-	if (pse) pse->OnInitMenuPopup(hWnd, wParam);
-} //відповідно варіанту завдання

@@ -5,25 +5,6 @@ protected:
 public:
 	void SetStart(long xStart, long yStart);
 	void SetEnd(long xEnd, long yEnd);
+	long getXStart(), getXEnd(), getYStart(), getYEnd();
 	virtual void Show(HDC) = 0;
-};
-
-class PointShape : public Shape {
-public:
-	void Show(HDC);
-};
-
-class LineShape : public Shape {
-public:
-	void Show(HDC);
-};
-
-class RectShape : public Shape {
-public:
-	void Show(HDC);
-};
-
-class EllipseShape : public Shape {
-public:
-	void Show(HDC);
 };
