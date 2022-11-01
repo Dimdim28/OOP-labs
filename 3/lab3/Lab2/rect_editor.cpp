@@ -1,0 +1,43 @@
+#include "ShapeEditor.h"
+#include "rect_shape.h"
+#include "rect_editor.h"
+#include "Resource.h"
+
+void RectEditor::OnMouseMove(HWND hWnd) {
+	if (!isPainting) return;
+	HPEN hPenOld, hPen;
+	HDC hdc;
+	hdc = GetDC(hWnd); //отримуємо контекст вікна для малювання
+	SetROP2(hdc, R2_NOTXORPEN);
+	hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 255));
+	hPenOld = (HPEN)SelectObject(hdc, hPen); //Малюються лінії "гумового" сліду попереднього розташування курсору
+	
+	Rectangle(hdc, pcshape[index]->getXStart(), pcshape[index]->getYStart(), pcshape[index]->getXEnd(), pcshape[index]->getYEnd());
+
+	GetCursorPos(&pt);
+	ScreenToClient(hWnd, &pt);
+	pcshape[index]->SetEnd(pt.x, pt.y); //координати поточної точки курсору
+	Rectangle(hdc, pcshape[index]->getXStart(), pcshape[index]->getYStart(), pcshape[index]->getXEnd(), pcshape[index]->getYEnd());
+	//Малюються лінії "гумового" сліду для поточного розташування курсору
+
+	SelectObject(hdc, hPenOld);
+	DeleteObject(hPen);
+	ReleaseDC(hWnd, hdc); //закриваємо контекст вікна
+}
+
+void RectEditor::GetShape() {
+	pcshape[index] = new RectShape;
+};
+
+void RectEditor::OnInitMenuPopup(HWND hWnd, WPARAM wParam)
+{
+	hMenu = GetMenu(hWnd);
+	hSubMenu = GetSubMenu(hMenu, 1);
+	if ((HMENU)wParam == hSubMenu)
+	{
+		CheckMenuItem(hSubMenu, ID_32771, MF_UNCHECKED);
+		CheckMenuItem(hSubMenu, ID_32772, MF_UNCHECKED);
+		CheckMenuItem(hSubMenu, ID_32773, MF_CHECKED);
+		CheckMenuItem(hSubMenu, ID_32774, MF_UNCHECKED);
+	}
+}
