@@ -1,11 +1,19 @@
+#include
+#include
 // Lab2.cpp : Defines the entry point for the application.
 //
 
 #include "framework.h"
 #include "Lab2.h"
-#include "shape_editor.h"
+#include "my_editor.h"
+#include "toolbar.h"
+#include "PointShape.h"
+#include "LineShape.h"
+#include "RectShape.h"
+#include "EllipseShape.h"
+#include "CubeShape.h"
+#include "LineOOShape.h"
 
-ShapeObjectsEditor Illia;
 
 #define MAX_LOADSTRING 100
 
@@ -24,7 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
-{
+{   
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -100,7 +108,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
     hInst = hInstance; // Store instance handle in our global variable
 
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)
@@ -124,44 +132,68 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - post a quit message and return
 //
 //
+MyEditor editor;
+
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case WM_LBUTTONDOWN: //натиснуто ліву кнопку миші у клієнтській частині вікна
-        Illia.OnLBdown(hWnd);
+    case WM_CREATE:
+        editor.OnCreate(hWnd, hInst); //Toolbar
         break;
-    case WM_LBUTTONUP: //відпущено ліву кнопку миші у клієнтській частині вікна
-        Illia.OnLBup(hWnd);
+    case WM_SIZE:
+        editor.OnSize(hWnd);
         break;
-    case WM_MOUSEMOVE: //пересунуто мишу у клієнтській частині вікна
-        Illia.OnMouseMove(hWnd);
+    case WM_NOTIFY:
+        editor.OnNotify(hWnd, wParam, lParam);
         break;
-    case WM_PAINT: //потрібно оновлення зображення клієнтської частині вікна
-        Illia.OnPaint(hWnd);
+    case WM_LBUTTONDOWN: 
+        editor.OnLBdown(hWnd);
         break;
-    case WM_INITMENUPOPUP: //позначка пунктів меню - для окремих варіантів завдань
-        Illia.OnInitMenuPopup(hWnd, wParam);
+    case WM_LBUTTONUP: 
+        editor.OnLBup(hWnd);
         break;
-
+    case WM_MOUSEMOVE: 
+        editor.OnMouseMove(hWnd);
+        break;
+    case WM_PAINT: 
+        editor.OnPaint(hWnd);
+        break;
+    case WM_INITMENUPOPUP: 
+        editor.OnInitMenuPopup(hWnd, wParam);
+        break;
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
         // Parse the menu selections:
         switch (wmId)
         {
+        case ID_TOOL_POINT:
         case ID_32771:
-            Illia.StartPointEditor(); //початок вводу точкових об’єктів
+            editor.Start(hWnd, new PointShape, ID_TOOL_POINT);
             break;
+        case ID_TOOL_LINE:
         case ID_32772:
-            Illia.StartLineEditor(); //початок вводу об’єктів-ліній
+            editor.Start(hWnd, new LineShape, ID_TOOL_LINE);
             break;
+        case ID_TOOL_RECT:
         case ID_32773:
-            Illia.StartRectEditor(); //початок вводу прямокутників
+            editor.Start(hWnd, new RectShape, ID_TOOL_RECT);
             break;
+        case ID_TOOL_ELLIPSE:
         case ID_32774:
-            Illia.StartEllipseEditor(); //початок вводу еліпсів
+            editor.Start(hWnd, new EllipseShape, ID_TOOL_ELLIPSE);
             break;
+        case ID_TOOL_FIGURE_CUBE:
+        case ID_32775:
+            editor.Start(hWnd, new CubeShape, ID_TOOL_FIGURE_CUBE);
+            break;
+        case ID_TOOL_FIGURE_LineOO:
+        case ID_32776:
+            editor.Start(hWnd, new LineOOShape, ID_TOOL_FIGURE_LineOO);
+            break;
+            
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
             break;
@@ -202,3 +234,4 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return (INT_PTR)FALSE;
 }
+
